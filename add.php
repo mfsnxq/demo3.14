@@ -90,7 +90,7 @@
                        <?php 
 
 
-$con = mysql_connect('localhost','root','','bysj');
+/*$con = mysql_connect('localhost','root','','bysj');
 if (!$con)
   {
   die('Could not connect: ' . mysql_error());
