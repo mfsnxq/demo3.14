@@ -1,3 +1,7 @@
+<?php
+	header("content-type:text/html;charset=utf-8");
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +26,60 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     
+
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <link href="css/cai.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript">
+        //登陆验证
+        function login(){
+            var username = $("#username").val();
+            var password = $("#password").val();
+            
+            var param = {"username":username,"password":password};
+
+            if(username == ""){
+                alert("用户名不能为空！");
+                $("#username").focus();
+            }
+            else if(password == ""){
+                alert("密码不能为空！");
+                $("#password").focus();
+            }
+            else{
+                //ajax的登陆验证
+            	$.ajax({
+                    type:"post",
+                    url:"log_in.php",
+                    data:param,
+                    success:function(data){
+                    	if(data == 1){
+                        	alert(username+"同学，登陆成功！");
+                        	window.location.reload();
+                            url="index.php";window.location.href=url;
+                    	}
+                    	else if(data == 0){
+                        	alert("用户名或密码错误！");
+                    	}
+                    }
+                });
+            }
+        }
+        /*/退出登录
+        function logout(){
+            if(confirm("是否确认退出登陆？")){
+            	$.ajax({
+                    type:"post",
+                    url:"logout.php",
+                    success:function(data){
+                    	alert("退出登陆成功！");
+                        window.location.reload();
+                    }
+                });
+            }
+        }*/
+    </script>
     
     
 </head>
@@ -58,43 +116,20 @@
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons users_circle-08"></i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="学号..." name="nam"/>
+                                <input type="text" class="form-control" placeholder="学号..." name="nam" id="username"/>
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="password" placeholder="密码..." class="form-control" name="pas" />
+                                <input type="password" placeholder="密码..." class="form-control" name="pas" id="password" />
                             </div>
                         </div>
                         <div class="footer text-center">
-                            <a href="index.php" class="btn btn-primary btn-round btn-lg btn-block" name="submit" type="submit"  >登录</a>
+                            <a href="" class="btn btn-primary btn-round btn-lg btn-block" name="submit"onclick="login();" type="submit"  >登录</a>
                         </div>
                        <?php 
-    /*$con=mysqli_connect('localhost','root','');
-	if($con) {
-		echo 'link ok';
-	}else {
-		echo 'error';
-        }*/
- $con=mysqli_connect('localhost','root','','bysj');//登陆数据库并进入里面的test数据库
-if($con){
-	// print("连接成功");
-	// mysqli_select_db('test',$conn);
-	$result=mysqli_query($con,"SELECT * FROM student");//对test数据库进行SQL语句操作SELECT * FROM student，并将结果作为一个对象返回
-	$result_arr=mysqli_fetch_assoc($result);//将数据读成一个数组
-	/*
-		mysqli_fetch_assoc()从结果集中取得一行作为关联数组：
-	*/
-	print_r($result_arr);
-}else{
-	echo "连接失败";
-}
-
   
-
-
-      
 ?>
                     
                     </form>

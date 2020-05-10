@@ -82,8 +82,8 @@
                         <li><a href="#services">竞赛精神</a></li>
                         <li><a href="#team">竞赛荣誉</a></li>
                         <li><a href="#benefits">最新消息</a></li>
-                        <li><a href="#prices">学校官网</a></li>
-                        <li><a href="#contact">登录</a></li>
+                        <li><a href="https://www.tjzj.edu.cn/cn/index/index.html">学校官网</a></li>
+                        <li><a href="#contact">	欢迎你</a></li>
                     </ul>
                 </div>
                 <!-- Navigation END -->

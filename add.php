@@ -1,12 +1,16 @@
+<?php
+	header("content-type:text/html;charset=utf-8");
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>登录</title>
+    <title>报名</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -22,7 +26,63 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     
-    
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <link href="css/cai.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript">
+        //登陆验证
+        function baomin(){
+            var username = $("#username").val();
+            var student_name = $("#student_name").val();
+            var suozaixi = $("#suozaixi").val();
+            var numb = $("#numb").val();
+            var nianji = $("#nianji").val();
+
+            var param = {"username":username,"student_name":student_name,"suozaixi":suozaixi,"numb":numb,"nianji":nianji};
+
+            if(username == ""){
+                alert("学号不能为空！");
+                $("#username").focus();
+            }
+            else if(student_name == ""){
+                alert("姓名不能为空！");
+                $("#student_name").focus();
+            }
+            else if(suozaixi == ""){
+                alert("所在系不能为空！");
+                $("#suozaixi").focus();
+            }
+            else if(numb == ""){
+                alert("联系电话不能为空！");
+                $("#numb").focus();
+            }
+            else if(nianji == ""){
+                alert("年级不能为空！");
+                $("#nianji").focus();
+            }
+            else{
+                //ajax的登陆验证
+            	$.ajax({
+                    type:"post",
+                    url:"index.php",
+                    data:param,
+                    success:function(data){
+                    	if(data == 1){
+                        	alert("报名失败");
+                        	window.location.reload();
+                            url="index.php";window.location.href=url;
+                    	}
+                    	else if(data == 0){
+                        	alert("报名成功");
+                            window.location.reload();
+                            url="index.php";window.location.href=url;
+                    	}
+                    }
+                });
+            }
+        }
+        </script>
     
 </head>
 
@@ -56,78 +116,38 @@
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons users_circle-08"></i>
                                 </span>
-                               <input type="text" class="form-control" placeholder="学号" name="ID"/>
+                               <input type="text" class="form-control" placeholder="学号" id="username" name="username"/>
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="form-control" placeholder="姓名" class="form-control" name="studen_id" />
+                                <input type="form-control" placeholder="姓名" class="form-control"id="student_name" name="studen_name" />
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="form-control" placeholder="所在系" class="form-control" name="suozaixi" />
+                                <input type="form-control" placeholder="所在系" class="form-control" id="suozaixi" name="suozaixi" />
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="form-control" placeholder="联系方式" class="form-control" name="numb" />
+                                <input type="form-control" placeholder="联系方式" class="form-control" id="numb" name="numb" />
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="form-control" placeholder="年级" class="form-control" name="nianji" />
+                                <input type="form-control" placeholder="年级" class="form-control"id="nianji" name="nianji" />
                             </div>
                         </div>
                         <div class="footer text-center">
                       
-                            <a href="" class="btn btn-primary btn-round btn-lg btn-block" name="submit" type="submit"  >报名</a>
+                            <a href="" class="btn btn-primary btn-round btn-lg btn-block" onclick="baomin();" name="submit" type="submit"  >报名</a>
                         </div>
                        <?php 
-
-
-$con = mysql_connect('localhost','root','','bysj');
-if (!$con)
-  {
-  die('Could not connect: ' . mysql_error());
-  }
-
-mysql_select_db("my_db", $con);
-
-mysql_query("INSERT INTO add_stu (ID, student_id, suozaixi,numb,nianji) 
-VALUES (ID, student_id, suozaixi,numb,nianji);
-
-/*mysql_query("INSERT INTO  add_stu(ID, student_id, suozaixi,numb,nianji) 
-VALUES ('1618031', 'QIU', 'JSJ', '17348672853', '4')");
-
-mysql_close($con);
-
-    /*$con=mysqli_connect('localhost','root','');
-	if($con) {
-		echo 'link ok';
-	}else {
-		echo 'error';
-        }*/
- $con=mysqli_connect('localhost','root','','bysj');//登陆数据库并进入里面的test数据库
-if($con){
-	// print("连接成功");
-	// mysqli_select_db('test',$conn);
-	$result=mysqli_query($con,"SELECT * FROM student");//对test数据库进行SQL语句操作SELECT * FROM student，并将结果作为一个对象返回
-	$result_arr=mysqli_fetch_assoc($result);//将数据读成一个数组
-	/*
-		mysqli_fetch_assoc()从结果集中取得一行作为关联数组：
-	*/
-	print_r($result_arr);
-}else{
-	echo "连接失败";
-}
-
-  
-
 
       
 ?>
